@@ -3,7 +3,7 @@ var MongoClient = require("mongodb").MongoClient;
 const serverless = require('serverless-http')
 const cors = require("cors");
 const router = express.Router();
-
+require('dotenv').config();
 const app = express(); // Change 'Express' to 'express' for consistency
 
 app.use(cors());
@@ -12,10 +12,10 @@ app.use(express.json()); // Change 'Express' to 'express' for consistency
 
 // app.use('/', router)
 
-var CONNECTION_STRING = "mongodb+srv://admin:Mongodb%407474@cluster0.iectwte.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+var CONNECTION_STRING = process.env.MONGO_CONNECT_URL;
 var DATABASE_NAME = "AishwaryaBathina";
 var database;
-var port = 8080
+var port = process.env.PORT
 
 app.listen(port, () => {
     MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
@@ -27,7 +27,7 @@ app.listen(port, () => {
 
         database = client.db(DATABASE_NAME);
         console.log("MongoDB Connection successful");
-        console.log("Port running at 8080")
+        console.log("Port running at", port)
     });
 });
 
